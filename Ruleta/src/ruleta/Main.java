@@ -25,7 +25,7 @@ public class Main {
 
         // Imprimir el mensaje en blanco
         System.out.print(WHITE);
-        System.out.println("           ¡BIENVENIDO A LA RULETA DE LA SUERTE!     ");
+        System.out.println("           ¡BIENVENIDO A LA RULETA DE LA SUERTE! 👋    ");
 
         // Imprimir bordes rojos
         System.out.print(RED);
