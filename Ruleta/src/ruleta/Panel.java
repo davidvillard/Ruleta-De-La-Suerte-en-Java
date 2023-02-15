@@ -8,9 +8,8 @@ import java.util.Scanner;
  */
 public class Panel {
 
-    Jugador jugador = new Jugador(100);
     private String fraseDescubierta;
-
+    private int seleccionPanel;
     private String[][] panel = {
         {"pista", "Ya no te preguntan si has sido bueno este ano"},
         {"pista", "En la que siempre habra barra libre de besos"},
@@ -19,8 +18,9 @@ public class Panel {
         {"pista", "Como cocinas muy bien haz tu la cena de nochevieja"}
     };
 
-    public Panel(int row) {
-        fraseDescubierta = panel[row - 1][1].replaceAll("[a-zA-Z]", "#");
+    public Panel(int seleccionPanel) {
+        this.seleccionPanel = seleccionPanel;
+        fraseDescubierta = panel[seleccionPanel - 1][1].replaceAll("[a-zA-Z]", "#");
     }
 
     public boolean esConsonante(char letra) {
@@ -28,51 +28,69 @@ public class Panel {
         return !VOCALES.contains(Character.toString(letra));
     }
 
-    public void adivinarFrase(int seleccionPanel) {
+    
+    /*
+    public boolean esVocal(char letra){
+        final String Consonantes = "p, q, b, t, d, c, ch, j, k, g, f, v, s, z, m, n, ñ, l, x, r, w, e, y, B, C, D, F, G, H, J, K, L, M, N, Ñ, P, Q, R, S, T, V, X, Z, W, Y";
+        return !Consonantes.contains(Character.toString(letra));
+    }
+    */
+    
+    /**
+     * 
+     * @return True si sigue jugando y false si incrementa turno
+     */
+    public boolean adivinarFrase() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Que frase crees que es");
         String fraseAdivinada = sc.nextLine();
 
         if (panel[seleccionPanel - 1][1].equalsIgnoreCase(fraseAdivinada)) {
             System.out.println("CORRECTO!");
+            return true;
         } else {
             System.out.println("Lo siento! Has fallado");
-            Juego.incrementaTurno();
+            return false;
         }
     }
 
-    public void decirLetra(int seleccionPanel) {
+    /**
+     * 
+     * @return True si sigue jugando y false si incrementa turno
+     */
+    public boolean decirLetra(Jugador jugador) {
+        boolean resultado = true;
         Scanner sc = new Scanner(System.in);
+        int contador = 0;
         char letraSeleccionada;
         do {
             System.out.println("Que letra eliges?");
             letraSeleccionada = sc.next().charAt(0);
-        } while (esConsonante(letraSeleccionada));
+        } while (contador!=0); //Problema de las consonantes
 
-        int contador = 0;
-        String resultadoRuleta = Jugador.ruleta();
+        String resultadoRuleta = jugador.getSeleccionRuleta();
         int valor = 0;
         int comodin = 0;
 
         if (resultadoRuleta.equals("Comodin")) {
             comodin++;
         } else if (resultadoRuleta.equals("Pierde Turno")) {
-            Juego.incrementaTurno();
-        }else if (resultadoRuleta.equals("Quiebra")) {
+            resultado = false;
+        } else if (resultadoRuleta.equals("Quiebra")) {
             jugador.reiniciarDinero();
-            Juego.incrementaTurno();
-        }else if (resultadoRuleta.equals("1/2")) {
-           jugador.dividirDinero();
-           Juego.incrementaTurno();
+            resultado = false;
+        } else if (resultadoRuleta.equals("1/2")) {
+            jugador.dividirDinero();
+            resultado = false;
         } else if (resultadoRuleta.equals("x2")) {
             jugador.multiplicarDinero();
-            Juego.incrementaTurno();
-        }else{
+            resultado = false;
+        } else {
             valor = Integer.parseInt(resultadoRuleta);
         }
         /*
         Capturar excepcion
-        */
+         */
         String solucion = panel[seleccionPanel - 1][1];
         String nuevaFraseDescubierta = "";
         for (int i = 0; i < solucion.length(); i++) {
@@ -81,20 +99,22 @@ public class Panel {
                 nuevaFraseDescubierta += letraSeleccionada;
             } else {
                 nuevaFraseDescubierta += fraseDescubierta.charAt(i);
-                /*
-                Problemas con las consonantes
-                */
             }
         }
-        
-        
-        fraseDescubierta=nuevaFraseDescubierta;
+
+        if (contador == 0) {
+            System.out.println("Lo siento has fallado");
+            fraseDescubierta = solucion;
+            resultado = false;
+        }else{
+            fraseDescubierta = nuevaFraseDescubierta;
         jugador.sumarDinero(valor * contador);
         System.out.println("Enhorabuena!, has adivinado: " + contador);
         System.out.println("Dinero obtenido " + valor * contador);
         System.out.println(fraseDescubierta);
 
-
+        }
+        return resultado;
     }
 
 }

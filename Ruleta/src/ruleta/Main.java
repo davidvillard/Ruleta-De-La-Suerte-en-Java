@@ -1,17 +1,18 @@
 package ruleta;
 
-public class Ruleta {
+public class Main {
 
     public static void main(String[] args) {
-        Juego.seleccionarNumeroJugadoresYOrden();
-        Juego.ordenAleatorio();
-        Juego.jugar();
+        Juego juego = new Juego();
+        juego.seleccionarNumeroJugadoresYOrden();
+        juego.ordenAleatorio();
+        juego.jugar();
         
         /*
         No se guarda el panel, si digo la "a" y despues la "e" el panel no guarda la letra anterior que habias dicho
         */
         /*
-        Necesito que si falla la frase o una letra que se incremente turno y pasemos al siguiente jugador
+        Necesito que si falla la frase o una letra, que se incremente turno y pasemos al siguiente jugador
         */
         /*
         Hay fallos con las consonantes y con las letras que no existen en la frase

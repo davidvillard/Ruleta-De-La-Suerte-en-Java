@@ -5,22 +5,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Juego {
+    Panel panel;
+    private int turno;
+    private final ArrayList<String> nombresJugadores = new ArrayList<>();
+    Jugador jugador = new Jugador();
 
-    private static int turno;
-    private static final ArrayList<String> nombresJugadores = new ArrayList<>();
-
-    public static void jugar(){
-        Scanner sc = new Scanner(System.in);
-        boolean seguirJugando = true;
-            
-        while (seguirJugando) {            
-            Jugador.ruleta();
-            Juego.seleccionarJugadaUsuario();
-        }
-    }
     
     
-    public static void seleccionarNumeroJugadoresYOrden() {
+    public void seleccionarNumeroJugadoresYOrden() {
 
         Scanner scan = new Scanner(System.in);
 
@@ -33,40 +25,56 @@ public class Juego {
         }
         System.out.println("Los nombres de los jugadores son: " + nombresJugadores);
         System.out.println("\n");
+        
+        System.out.println("Con que panel quieres jugar?");
+        int row = scan.nextInt();
+        panel = new Panel(row);
 
     }
 
-    public static void ordenAleatorio() {
+    public void ordenAleatorio() {
         Random random = new Random();
         turno = random.nextInt(1, nombresJugadores.size());
         System.out.println("El primer Jugador es: " + nombresJugadores.get(turno));
         System.out.println("Gira la ruleta: " + nombresJugadores.get(turno));
         System.out.println("\n");
     }
+    
+    public void jugar(){
+        
+        Scanner sc = new Scanner(System.in);
+        boolean seguirJugando = true;
+            
+        while (seguirJugando) {            
+            jugador.ruleta();
+            seleccionarJugadaUsuario();
+        }
+    }
 
-    public static void incrementaTurno() {
+    public void incrementaTurno() {
         turno = (turno + 1) % nombresJugadores.size();
         System.out.println("Es el turno del jugador " + nombresJugadores.get(turno));
         System.out.println("Gira la ruleta: " + nombresJugadores.get(turno));
         System.out.println("\n");
     }
     
-    public static void seleccionarJugadaUsuario(){
+    public void seleccionarJugadaUsuario(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Elige que quieres hacer:\n"
                 + "Adivinar frase\n"
                 + "Decir letra");
         String opcionElegida = sc.nextLine();
-        System.out.println("Que panel quieres?");
-        int row = sc.nextInt();
-        Panel panel = new Panel(row);
+
         
         switch (opcionElegida) {
             case "Adivinar frase":               
-                panel.adivinarFrase(row);
+                panel.adivinarFrase();
                 break;
             case "Decir letra":
-                panel.decirLetra(row);
+                if (!panel.decirLetra(jugador)) {
+                    incrementaTurno();
+                }
+                
                 break;
             default:
                 System.out.println("La opcion es otra");

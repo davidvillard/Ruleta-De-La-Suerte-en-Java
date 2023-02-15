@@ -6,20 +6,19 @@ import java.util.Random;
 
 public class Jugador {
 
+    private String seleccionRuleta;
     private String nombre;
     private int comodines = 10;
     private double dineroTotal;
     private double dineroRonda = 100;
 
-    public Jugador(int dinerTotal) {
+
+    public void dividirDinero() {
+        this.dineroRonda *= 0.5;
     }
-    
-    public void dividirDinero(){
-        this.dineroRonda*=0.5;
-    }
-    
-    public void multiplicarDinero(){
-        this.dineroRonda*=2;
+
+    public void multiplicarDinero() {
+        this.dineroRonda *= 2;
     }
 
     public void restarDinero(int cantidad) {
@@ -29,8 +28,8 @@ public class Jugador {
     public void sumarDinero(int cantidad) {
         this.dineroRonda += cantidad;
     }
-    
-    public void reiniciarDinero(){
+
+    public void reiniciarDinero() {
         this.dineroRonda = 0;
     }
 
@@ -38,11 +37,15 @@ public class Jugador {
 
     }
 
-    public static String ruleta() {
+    public String getSeleccionRuleta() {
+        return seleccionRuleta;
+    }
+
+    public String ruleta() {
         String[] ruleta = {"0", "25", "50", "100", "150", "Pierde Turno", "75", "50", "150", "75", "x2", "75", "100", "25", "Comodin", "50", "125", "50", "75", "1/2", "150", "75", "25", "50", "Quiebra"};
         ArrayList<String> ruletaList = new ArrayList<>(Arrays.asList(ruleta));
         Random random = new Random();
-        String seleccionRuleta = ruletaList.get(random.nextInt(ruletaList.size()));
+        seleccionRuleta = ruletaList.get(random.nextInt(ruletaList.size()));
         System.out.println("Has caido en la casilla: " + seleccionRuleta);
         System.out.println("\n");
         return seleccionRuleta;
