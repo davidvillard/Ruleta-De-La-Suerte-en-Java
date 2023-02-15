@@ -6,12 +6,21 @@ import java.util.Random;
 
 public class Jugador {
 
+    public static final String BLACK = "\033[0;30m";
+    public static final String RED = "\033[0;31m";
+    public static final String GREEN = "\033[0;32m";
+    public static final String YELLOW = "\033[0;33m";
+    public static final String BLUE = "\033[0;34m";
+    public static final String PURPLE = "\033[0;35m";
+    public static final String CYAN = "\033[0;36m";
+    public static final String WHITE = "\033[0;37m";
+    public static final String RESET = "\033[0m";
+
     private String seleccionRuleta;
     private String nombre;
     private int comodines = 10;
     private double dineroTotal;
     private double dineroRonda = 100;
-
 
     public void dividirDinero() {
         this.dineroRonda *= 0.5;
@@ -46,7 +55,7 @@ public class Jugador {
         ArrayList<String> ruletaList = new ArrayList<>(Arrays.asList(ruleta));
         Random random = new Random();
         seleccionRuleta = ruletaList.get(random.nextInt(ruletaList.size()));
-        System.out.println("Has caido en la casilla: " + seleccionRuleta);
+        System.out.println("Has caido en la casilla: " + YELLOW + seleccionRuleta + YELLOW);
         System.out.println("\n");
         return seleccionRuleta;
     }
