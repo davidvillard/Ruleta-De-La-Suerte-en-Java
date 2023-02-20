@@ -89,6 +89,8 @@ public class Panel {
             System.out.println("\n");
             System.out.println(GREEN + "CORRECTO!" + GREEN + RESET);
             System.out.println("\n");
+            jugador.sumarDinero(valor);
+            System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
             return true;
         } else {
             System.out.println("\n");

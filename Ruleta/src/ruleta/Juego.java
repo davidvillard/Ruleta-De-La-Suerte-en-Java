@@ -92,7 +92,7 @@ public class Juego {
 
     public void incrementaRonda() {
         Scanner scan = new Scanner(System.in);
-        if (ronda <= 5) {
+        if (ronda <= 4) {
             ronda = (ronda + 1);
             System.out.println("");
             System.out.println(CYAN + "¡COMIENZA LA RONDA " + ronda + "!" + CYAN + RESET);
@@ -104,6 +104,7 @@ public class Juego {
 
         } else {
             System.out.println(CYAN + "¡HA TERMINADO EL JUEGO " + ronda + "!" + CYAN + RESET);
+             System.exit(0); // Termina la ejecución del programa con éxito
         }
 
     }
