@@ -21,9 +21,13 @@ public class Jugador {
     private int comodines = 10;
     private double dineroTotal;
     private double dineroRonda = 100;
-
+    
     public void dividirDinero() {
         this.dineroRonda *= 0.5;
+    }
+    
+    public double getDinero(){
+        return dineroRonda;
     }
 
     public void multiplicarDinero() {
@@ -50,6 +54,10 @@ public class Jugador {
         return seleccionRuleta;
     }
 
+    /**
+     * Ruleta del juego
+     * @return devuelve el resultado que salio en la ruleta al azar
+     */
     public String ruleta() {
         String[] ruleta = {"0", "25", "50", "100", "150", "Pierde Turno", "75", "50", "150", "75", "x2", "75", "100", "25", "Comodin", "50", "125", "50", "75", "1/2", "150", "75", "25", "50", "Quiebra"};
         ArrayList<String> ruletaList = new ArrayList<>(Arrays.asList(ruleta));

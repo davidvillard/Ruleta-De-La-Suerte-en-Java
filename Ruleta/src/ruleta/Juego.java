@@ -20,10 +20,14 @@ public class Juego {
     public static final String RESET = "\033[0m";
 
     Panel panel;
-    private int turno;
-    private final ArrayList<String> nombresJugadores = new ArrayList<>();
+    public static int turno;
+    private int ronda = 1;
+    public static final ArrayList<String> nombresJugadores = new ArrayList<>();
     Jugador jugador = new Jugador();
 
+    /**
+     * Metodo en el que sacamos los nombres de jugadores, su orden y el panel con el que se va a jugar
+     */
     public void seleccionarNumeroJugadoresYOrden() {
 
         Scanner scan = new Scanner(System.in);
@@ -47,6 +51,9 @@ public class Juego {
 
     }
 
+    /**
+     * Metodo con el que sacamos el jugador que empieza primero
+     */
     public void ordenAleatorio() {
         Random random = new Random();
         turno = random.nextInt(1, nombresJugadores.size());
@@ -57,6 +64,9 @@ public class Juego {
         System.out.println("\n");
     }
 
+    /**
+     * Metodo jugar, contiene lo principal del juego
+     */
     public void jugar() {
 
         Scanner sc = new Scanner(System.in);
@@ -68,6 +78,9 @@ public class Juego {
         }
     }
 
+    /**
+     * Metodo que incrementa el turno
+     */
     public void incrementaTurno() {
         turno = (turno + 1) % nombresJugadores.size();
         System.out.println("Es el turno del jugador " + PURPLE + nombresJugadores.get(turno) + PURPLE);
@@ -77,6 +90,27 @@ public class Juego {
         System.out.println("\n");
     }
 
+    public void incrementaRonda() {
+        Scanner scan = new Scanner(System.in);
+        if (ronda <= 5) {
+            ronda = (ronda + 1);
+            System.out.println("");
+            System.out.println(CYAN + "¡COMIENZA LA RONDA " + ronda + "!" + CYAN + RESET);
+            System.out.println("\n");
+            System.out.println(CYAN + "Con que panel quieres jugar?" + CYAN);
+            System.out.print(RESET);
+            int row = scan.nextInt();
+            panel = new Panel(row);
+
+        } else {
+            System.out.println(CYAN + "¡HA TERMINADO EL JUEGO " + ronda + "!" + CYAN + RESET);
+        }
+
+    }
+
+    /**
+     * Metodo que contiene las posibles selecciones que puede hacer el usuario
+     */
     public void seleccionarJugadaUsuario() {
         Scanner sc = new Scanner(System.in);
         System.out.println(CYAN + "Elige que quieres hacer:\n\n" + CYAN + RESET
@@ -87,13 +121,22 @@ public class Juego {
 
         switch (opcionElegida) {
             case "Adivinar frase":
-                panel.adivinarFrase();
+                if (!panel.adivinarFrase(jugador)) {
+                    incrementaTurno();
+                } else {
+                    incrementaRonda();
+                }
                 break;
             case "Decir letra":
-                if (!panel.decirLetra(jugador)) {
-                    incrementaTurno();
+                int resultadoReturn = panel.decirLetra(jugador);
+                switch (resultadoReturn) {
+                    case 0:
+                        incrementaTurno();
+                        break;
+                    case 2:
+                        incrementaRonda();
+                        break;
                 }
-
                 break;
             default:
                 System.out.println("La opcion es otra");
