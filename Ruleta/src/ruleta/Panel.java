@@ -123,21 +123,16 @@ public class Panel {
         if (resultadoRuleta.equals("Comodin")) {
             comodin++;
             System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
-            juego.incrementaTurno();
         } else if (resultadoRuleta.equals("Pierde Turno")) {
-            juego.incrementaTurno();
             System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
         } else if (resultadoRuleta.equals("Quiebra")) {
             jugador.reiniciarDinero();
-            juego.incrementaTurno();
             System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
         } else if (resultadoRuleta.equals("1/2")) {
             jugador.dividirDinero();
-            juego.incrementaTurno();
             System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
         } else if (resultadoRuleta.equals("x2")) {
             jugador.multiplicarDinero();
-            juego.incrementaTurno();
             System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
         } else {
             valor = Integer.parseInt(resultadoRuleta);
@@ -156,13 +151,13 @@ public class Panel {
 
         if (contador == 0) {
             System.out.println(RED + "Lo siento has fallado" + RED + RESET);
-            fraseDescubierta = solucion;
             return 0; // 0 si no aciertas la letra de la frase
         } else {
             fraseDescubierta = nuevaFraseDescubierta;
             jugador.sumarDinero(valor * contador);
             System.out.println("Enhorabuena!, has adivinado: " + contador);
             System.out.println("Dinero obtenido " + valor * contador);
+            System.out.println(Juego.nombresJugadores.get(Juego.turno) + " tiene " + comodin + " comodines y " + jugador.getDinero() + "€");
             System.out.println("\n");
             System.out.println(CYAN + "PANEL:" + CYAN);
             System.out.println(fraseDescubierta);
